@@ -1,81 +1,19 @@
 version: 2
-workflows:
-  version: 2
-  test:
-    jobs:
-      - build
-      - test-3.6
-#      - test-2.7
 jobs:
   build:
-      docker:
-        - image: circleci/python:3.6-jessie
-        steps:
-          - checkout
-          - run: ls
-          
-  test-3.6: 
-    working_directory: ~/foundation
-
     docker:
-        - image: circleci/python:3.6-jessie
-          
-    environment:
-      FOUNDATION_HOME: /opt/autogrid/configs
-      PYTHONPATH: /home/circleci/foundation/python
-      COVERALLS_REPO_TOKEN: 1EZm40uMTIT2uBZ92PoSroiMODaF7xwDj
+      # specify the version you desire here
+      # use `-browsers` prefix for selenium tests, e.g. `3.6.1-browsers`
+      - image: circleci/python:3.6.1
+      
+      # Specify service dependencies here if necessary
+      # CircleCI maintains a library of pre-built images
+      # documented at https://circleci.com/docs/2.0/circleci-images/
+      # - image: circleci/postgres:9.4
+
+    working_directory: ~/repo
+ 
     steps:
       - checkout
-#--      - restore_cache:
-#--          keys:
-#--            - core-deps-{{ .Environment.CIRCLE_STAGE }}-{{ .Branch }}-{{ checksum "python/requirements.txt" }}
-#--            - core-deps-{{ .Environment.CIRCLE_STAGE }}-
-      # Environment provisioning
-      - run:
-          command: |
-            sudo mkdir /opt/autogrid
-            sudo mkdir /opt/autogrid/logs
-            sudo mkdir $FOUNDATION_HOME
-            sudo chmod -R 777 $FOUNDATION_HOME
-            sudo chmod -R 777 /opt/autogrid/logs
-            sudo apt-get install gfortran libopenblas-dev liblapack-dev libfreetype6-dev libpng-dev libncurses5-dev
-#--      # Copy configuration files to FOUNDATION_HOME.
-#--      - run:
-#--          command: |
-#--            cp conf/*.yml $FOUNDATION_HOME
-#--      # Python virtualenv
-#--      - run:
-#--          command: |
-#--            sudo pip install virtualenv
-#--            virtualenv venv
-#--      # AutoGrid packages
-#--      - run:
-#--          command: |
-#--            . venv/bin/activate
-#--            pip install --upgrade six appdirs packaging setuptools pip pytest pytest-cov coveralls
-#--      - run:
-#--          command: |
-#--            . venv/bin/activate
-#--            # edp-core dependencies
-#--            pip install -r python/requirements.txt --extra-index-url https://pypi.fury.io/o7L8pPPHY7cvDroVBd1h//autogrid
-#--      - save_cache:
-#--          key: core-deps-{{ .Environment.CIRCLE_STAGE }}-{{ .Branch }}-{{ checksum "python/requirements.txt" }}
-#--          paths:
-#--            - venv
-#--      # Run tests
-#--      - run:
-#--          # Note: add a '-s' here to capture logging.
-#--          command: |
-#--            . venv/bin/activate
-#--            cd python
-#--            py.test --ignore=autogrid/foundation/test/integration --cov=autogrid.foundation --cov-config .coveragerc
-#--      - run:
-#--          command: |
-#--            . venv/bin/activate
-#--            cd python
-#--            coveralls
-#--  test-2.7:
-#--    <<: *test-template
-#--    docker:
-#--      - image: circleci/python:2.7-jessie
-#--
+      - run: echo "hello world"
+
