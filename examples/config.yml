@@ -1,0 +1,28 @@
+version: 2
+workflows:
+  version: 2
+  test:
+    jobs:
+      - build
+      - test-3.6
+
+jobs:
+  build:
+    docker:
+      - image: circleci/python:3.6-jessie
+    steps:
+      - checkout
+      - run: ls
+
+test-3.6: #&test-template
+    docker:
+      - image: circleci/python:3.6-jessie
+
+    working_directory: ~/foundation
+    environment:
+      FOUNDATION_HOME: /opt/autogrid/configs
+      PYTHONPATH: /home/circleci/foundation/python
+      COVERALLS_REPO_TOKEN: 1EZm40uMTIT2uBZ92PoSroiMODaF7xwDj
+    steps:
+      - checkout
+      - run: ls

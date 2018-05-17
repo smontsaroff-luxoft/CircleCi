@@ -1,0 +1,18 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/python:3.6.1
+      - image: mongo:2.6.8
+        command: [mongod, --smallfiles]
+
+    working_directory: ~/repo
+
+    steps:
+      - checkout
+      - run: ls
+      - run: pwd
+      - run: echo "hi"
+      - run: sleep 5 && nc -vz localhost 27017
+
+        
